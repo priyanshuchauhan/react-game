@@ -4,12 +4,20 @@ on:
   push:
     branches: [ main ]
 
+# Grant explicit write permission so the action can push the gh-pages branch.
+permissions:
+  contents: write
+  pages: write
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
+        # fetch full history to allow actions-gh-pages to create a proper commit
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
